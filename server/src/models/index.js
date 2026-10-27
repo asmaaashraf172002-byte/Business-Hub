@@ -1,0 +1,10 @@
+import mongoose from 'mongoose';
+const base={timestamps:true};
+const Client=mongoose.model('Client',new mongoose.Schema({name:{type:String,required:true,trim:true},email:{type:String,lowercase:true,trim:true},phone:String,company:String,status:{type:String,enum:['lead','active','inactive'],default:'lead'},notes:String,ownerId:String},base));
+const Task=mongoose.model('Task',new mongoose.Schema({title:{type:String,required:true,trim:true},description:String,status:{type:String,enum:['TODO','IN_PROGRESS','DONE'],default:'TODO'},priority:{type:String,enum:['LOW','MEDIUM','HIGH'],default:'MEDIUM'},dueDate:Date,assignedTo:String,ownerId:String},base));
+const Deal=mongoose.model('Deal',new mongoose.Schema({title:{type:String,required:true,trim:true},customerId:String,value:{type:Number,default:0,min:0},stage:{type:String,enum:['LEAD','QUALIFIED','PROPOSAL','NEGOTIATION','WON','LOST'],default:'LEAD'},expectedCloseDate:Date,notes:String,ownerId:String},base));
+const Expense=mongoose.model('Expense',new mongoose.Schema({title:{type:String,required:true},amount:{type:Number,required:true,min:0},category:{type:String,default:'other'},date:{type:Date,default:Date.now},notes:String,ownerId:String},base));
+const Meeting=mongoose.model('Meeting',new mongoose.Schema({title:{type:String,required:true},date:{type:Date,required:true},location:String,clientId:String,notes:String,status:{type:String,enum:['scheduled','done','cancelled'],default:'scheduled'},ownerId:String},base));
+const Notification=mongoose.model('Notification',new mongoose.Schema({userId:String,title:String,message:String,read:{type:Boolean,default:false},type:{type:String,default:'info'}},{timestamps:true}));
+const Activity=mongoose.model('Activity',new mongoose.Schema({userId:String,userName:String,action:String,entity:String,entityId:String,details:String},{timestamps:true}));
+export {Client,Task,Deal,Expense,Meeting,Notification,Activity};
